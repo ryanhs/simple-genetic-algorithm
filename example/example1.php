@@ -1,7 +1,10 @@
-#!/usr/bin/php
 <?php
 
-require 'SimpleGeneticAlgorithm.php';
+/*
+	this example show how we use SimpleGeneticAlgorithm
+*/
+
+require __DIR__ . '/../SimpleGeneticAlgorithm.php';
 
 $ga = new SimpleGeneticAlgorithm\SimpleGeneticAlgorithm(array(
 	
