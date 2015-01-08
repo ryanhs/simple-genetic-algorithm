@@ -5,6 +5,10 @@ if you inteserted just email me at mr.ryansilalahi@gmail.com :-)
 
 see interface/GeneticAlgorithm.php
 
+# Installation
+you can download this with composer (packagist)
+<pre><code>composer require ryanhs/simple-genetic-algorithm</code></pre>
+
 # Example
 in example dir you can see:
 -------
