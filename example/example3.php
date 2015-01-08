@@ -4,7 +4,7 @@
 	this example show how we can tweak crossover to choose only the best chromosome
 */
 
-require __DIR__ . '/../SimpleGeneticAlgorithm.php';
+require __DIR__ . '/../vendor/autoload.php'; // composer autoload
 
 class CustomGeneticAlgorithm extends \SimpleGeneticAlgorithm\SimpleGeneticAlgorithm{
 	

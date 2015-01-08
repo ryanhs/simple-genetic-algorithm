@@ -4,7 +4,7 @@
 	this example show how we use SimpleGeneticAlgorithm
 */
 
-require __DIR__ . '/../SimpleGeneticAlgorithm.php';
+require __DIR__ . '/../vendor/autoload.php'; // composer autoload
 
 $ga = new \SimpleGeneticAlgorithm\SimpleGeneticAlgorithm(array(
 	

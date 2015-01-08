@@ -4,7 +4,7 @@
 	Genetic Algorithm without evolution goal?
 */
 
-require __DIR__ . '/../SimpleGeneticAlgorithm.php';
+require __DIR__ . '/../vendor/autoload.php'; // composer autoload
 
 class CustomGeneticAlgorithm extends \SimpleGeneticAlgorithm\SimpleGeneticAlgorithm{
 	
