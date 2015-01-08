@@ -1,0 +1,13 @@
+{
+    "name": "ryanhs/simple-genetic-algorithm",
+    "description": "simple genetic algorithm in PHP",
+    "license": "MIT License",
+    "authors": [
+        {
+            "name": "ryan hs",
+            "email": "mr.ryansilalahi@gmail.com"
+        }
+    ],
+    "minimum-stability": "RC",
+    "require": {}
+}
