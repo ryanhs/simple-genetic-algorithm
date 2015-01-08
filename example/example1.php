@@ -6,7 +6,7 @@
 
 require __DIR__ . '/../SimpleGeneticAlgorithm.php';
 
-$ga = new SimpleGeneticAlgorithm\SimpleGeneticAlgorithm(array(
+$ga = new \SimpleGeneticAlgorithm\SimpleGeneticAlgorithm(array(
 	
 	//'population' => 20,
 	//'selection' => 90, // 90%

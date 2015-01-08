@@ -6,7 +6,7 @@
 
 require __DIR__ . '/../SimpleGeneticAlgorithm.php';
 
-class CustomGeneticAlgorithm extends SimpleGeneticAlgorithm\SimpleGeneticAlgorithm{
+class CustomGeneticAlgorithm extends \SimpleGeneticAlgorithm\SimpleGeneticAlgorithm{
 	
 	public function crossover(){
 		$new_population = array();
@@ -28,7 +28,7 @@ class CustomGeneticAlgorithm extends SimpleGeneticAlgorithm\SimpleGeneticAlgorit
 				elseif($b[$j] == $goal[$j])
 					$child .= $b[$j];
 				else
-				$child .= rand(0, 1) == 0 ? $a[$j] : $b[$j];
+					$child .= rand(0, 1) == 0 ? $a[$j] : $b[$j];
 			}
 			$new_population[] = array(
 				'chromosome' => $child,

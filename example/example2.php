@@ -6,7 +6,7 @@
 
 require __DIR__ . '/../SimpleGeneticAlgorithm.php';
 
-class CustomGeneticAlgorithm extends SimpleGeneticAlgorithm\SimpleGeneticAlgorithm{
+class CustomGeneticAlgorithm extends \SimpleGeneticAlgorithm\SimpleGeneticAlgorithm{
 	
 	public function crossover(){
 		$new_population = array();
