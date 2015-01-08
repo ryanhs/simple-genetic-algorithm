@@ -36,7 +36,7 @@ class CustomGeneticAlgorithm extends \SimpleGeneticAlgorithm\SimpleGeneticAlgori
 }
 
 $ga = new CustomGeneticAlgorithm(array(
-	'goal' => 'foo',
+	'goal' => 'aa',
 	
 	'delay' => 10, // ms, if debug is false, then delay forced to 0
 	'debug' => true,
