@@ -1,46 +1,32 @@
-#!/usr/bin/php
 <?php
 
-class GeneticAlgorithm{
+namespace SimpleGeneticAlgorithm;
+
+require __DIR__ . '/interface/GeneticAlgorithm.php';
+
+class SimpleGeneticAlgorithm implements GeneticAlgorithm{
 	
-	private $options_default = array(
-		'max_population' => 10,
-		'max_iteration' => 5000,
+	protected $options = array();
+	protected $options_default = array(
+		'population' => 20,
 		'selection' => 90, // percent
 		'mutation' => 1, // percent
 		
-		'quite' => false, // echo step
-		'delay' => 500, // ms
+		'seed' => 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 1234567890\'.,',
+		'goal' => 'lorem ipsum',
 		
-		'seed' => 'asdfghjklqwertyuiopzxcvbnm1234567890 ',
-		'goal' => 'hello world',
+		'max_iteration' => 50000,
+		'delay' => 500, // ms, if debug is false, then delay forced to 0
+		'debug' => true,
+		'fitness_in_percent' => false, // usefull if chromosome more than 10 chars
 	);
-	private $options;
-	private $population;	
-	private $solution;
 	
-	public function __construct($options = array()){
+	protected $population = array();
+	protected $best = '';
 	
-		$this->set($options);
-		$this->clear_cache();
-	}
-
-	// set options javascipt plugin style,	
-	public function set($options){
-		$this->options = array_merge($this->options_default, $options);
-	}
-	
-	// set default variable
-	public function clear_cache(){
-		$this->population = array();
-		$this->solution = false;
-	}
-	
-	
-	// random seed
 	public function init_population(){
 		$chars = str_split($this->options['seed']);
-		for($i = 0; $i < $this->options['max_population']; $i++){
+		for($i = 0; $i < $this->options['population']; $i++){
 			
 			// make random seed
 			$tmp = $chars[rand(0, count($chars) - 1)]
@@ -57,7 +43,7 @@ class GeneticAlgorithm{
 	}
 	
 	public function fitness_function(){
-		for($i = 0; $i < $this->options['max_population']; $i++){
+		for($i = 0; $i < $this->options['population']; $i++){
 			$chromosome = $this->population[$i]['chromosome'];
 			$chromosome = str_split($chromosome);
 			
@@ -69,14 +55,15 @@ class GeneticAlgorithm{
 					$this->population[$i]['fitness']++;
 			}
 			
-			// make in percent
-			//$this->population[$i]['fitness'] = $this->population[$i]['fitness'] / count($goal) * 100;
+			// make fitness in percent
+			if($this->options['fitness_in_percent'])
+				$this->population[$i]['fitness'] = $this->population[$i]['fitness'] / count($goal) * 100;
 		}
 	}
 	
 	public function selection(){
 		// calculate max selection
-		$max_selection = floor($this->options['selection'] / 100 * $this->options['max_population']);
+		$max_selection = floor($this->options['selection'] / 100 * $this->options['population']);
 		
 		// get array of fitness
 		$tmp_arr = array();
@@ -95,13 +82,12 @@ class GeneticAlgorithm{
 				unset($this->population[$k]);
 			}
 		}
-		
 	}
 	
 	// generate new population based on breeding (crossover)
 	public function crossover(){
 		$new_population = array();
-		for($i = 0; $i < $this->options['max_population']; $i++){
+		for($i = 0; $i < $this->options['population']; $i++){
 			// get random parents
 			$a = $this->population[array_rand($this->population, 1)]['chromosome'];
 			$b = $this->population[array_rand($this->population, 1)]['chromosome'];
@@ -124,12 +110,11 @@ class GeneticAlgorithm{
 		$this->population = $new_population;
 	}
 	
-	
 	// mutation to make every variant better
-	public function mutate(){
+	public function mutation(){
 		foreach($this->population as $k => $v){
 			// get mutation chance
-			$is_mutating = rand(0, 100) <= $this->options['mutation'];
+			$is_mutating = (rand(0, 1000) / 1000 * 100) <= $this->options['mutation'];
 			if(!$is_mutating) continue;
 			
 			$tmp = str_split($v['chromosome']);
@@ -151,11 +136,11 @@ class GeneticAlgorithm{
 			}
 		}
 		
-		return $this->population[$best_i]['chromosome'];
+		return $this->best = $this->population[$best_i]['chromosome'];
 	}
 	
-	public function start(){
-		if($this->options['quite'] == false)
+	public function run(){
+		if($this->options['debug'])
 			echo 'Goal: ' . $this->options['goal']. PHP_EOL . PHP_EOL;
 		
 		$this->clear_cache();
@@ -163,11 +148,11 @@ class GeneticAlgorithm{
 		$best = '';
 		
 		$i = 0;
-		while($i < $this->options['max_iteration'] && $this->solution === false){
+		while($i < $this->options['max_iteration'] && $this->best != $this->options['goal']){
 			$i++;
 			$best = $this->get_best();
 			
-			if($this->options['quite'] == false)
+			if($this->options['debug'])
 				echo 'Generation #' . $i . ' - ' . $best . PHP_EOL;
 			
 			if($best == $this->options['goal']){
@@ -178,30 +163,43 @@ class GeneticAlgorithm{
 			$this->fitness_function();
 			$this->selection();
 			$this->crossover();
-			$this->mutate();
+			$this->mutation();
 			
-			if($this->options['quite'] == false)
+			if($this->options['debug'])
 				usleep($this->options['delay'] * 1000);
 		}
-		if($this->options['quite'] == false)
-			echo PHP_EOL . PHP_EOL . 'Solution "' . $best. '" on Generation ' . $i . PHP_EOL;
+		if($this->options['debug'])
+			echo PHP_EOL . PHP_EOL . 'Solution "' . $this->best. '" on Generation ' . $i . PHP_EOL;
 			
 		return array(
 			'Generation' => $i,
-			'best' => $best,
+			'best' => $this->best,
 		);
 	}
+	
+	// $key is string or array of function
+	// example: array('delay' => 100, 'debug' => true)
+	public function set_option($key, $value = null){
+		if(is_array($key)){
+			$this->options = array_merge($this->options, $key);
+			return true;
+		}
+		
+		$this->options[$key] = $value;
+	}
+	
+	public function get_option($key){
+		return !empty($this->options[$key]) ? $this->options[$key] : null;
+	}
+	
+	public function clear_cache(){
+		$this->population = array();
+		$this->best = '';
+	}
+	
+	public function __construct($options = array()){
+		$this->clear_cache();
+		$this->options = array_merge($this->options_default, $options);
+	}
+		
 }
-
-$ga = new GeneticAlgorithm(array(
-	'seed' => 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 1234567890!@#$%^&*())',
-	'goal' => 'astari',
-	'delay' => 10,
-	
-	'max_iteration' => 700,
-	
-	'mutation' => 1,
-	'quite' => true,
-));
-
-var_dump($ga->start());
