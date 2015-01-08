@@ -1,5 +1,5 @@
 {
-    "name": "ryanhs/SimpleGeneticAlgorithm",
+    "name": "ryanhs/simplegeneticalgorithm",
     "description": "simple genetic algorithm in PHP",
     "license": "MIT License",
     "authors": [
@@ -9,5 +9,8 @@
         }
     ],
     "minimum-stability": "RC",
-    "require": {}
+    "require": {},
+    "require-dev": {
+        "phpunit/phpunit": "4.4.*"
+    }
 }
