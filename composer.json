@@ -15,7 +15,7 @@
     },
     "autoload": {
 		"psr-4": {
-			"SimpleGeneticAlgorithm\\": "vendor/ryanhs/simple-genetic-algorithm"
+			"SimpleGeneticAlgorithm\\": ""
 		}
 	}
 }
