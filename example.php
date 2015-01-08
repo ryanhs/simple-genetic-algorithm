@@ -6,11 +6,11 @@ require 'SimpleGeneticAlgorithm.php';
 $ga = new SimpleGeneticAlgorithm\SimpleGeneticAlgorithm(array(
 	
 	//'population' => 20,
-	//'selection' => 90, // percent
-	'mutation' => 25, // 10%
+	//'selection' => 90, // 90%
+	'mutation' => 25, // 25%
 	
 	//'seed' => 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 1234567890\'.,',
-	'goal' => 'astari ghaniarti',
+	'goal' => 'Astari Ghaniarti',
 	
 	//'max_iteration' => 50000,
 	'delay' => 50, // ms, if debug is false, then delay forced to 0
